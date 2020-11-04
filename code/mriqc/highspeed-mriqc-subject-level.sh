@@ -25,7 +25,7 @@ PATH_PROJECT="${PATH_ROOT}/${PROJECT_NAME}"
 # define the name of the current task:
 TASK_NAME="mriqc"
 # define the path to the script main directory:
-PATH_CODE="${PATH_PROJECT}/code"
+PATH_CODE="${PATH_PROJECT}/code/${TASK_NAME}"
 # cd into the directory of the current task:
 cd "${PATH_CODE}"
 # define the path to the singularity container:
@@ -35,7 +35,7 @@ PATH_TEMPLATEFLOW="${PATH_BASE}/.cache/templateflow"
 # path to the data directory (in bids format):
 PATH_INPUT="${PATH_PROJECT}/bids"
 # path to the output directory:
-PATH_OUTPUT=${PATH_PROJECT}
+PATH_OUTPUT=${PATH_PROJECT}/${TASK_NAME}
 # path to the working directory:
 PATH_WORK=${PATH_PROJECT}/work
 # path to the log directory:
@@ -45,11 +45,6 @@ PATH_SUB_LIST="${PATH_CODE}/highspeed-participant-list.txt"
 # ==============================================================================
 # CREATE RELEVANT DIRECTORIES:
 # ==============================================================================
-# create output directory:
-if [ ! -d ${PATH_OUTPUT} ]
-then
-	mkdir -p ${PATH_OUTPUT}
-fi
 # create working directory:
 if [ ! -d ${PATH_WORK} ]
 then
@@ -69,7 +64,7 @@ fi
 # maximum number of cpus per process:
 N_CPUS=5
 # memory demand in *GB*
-MEM_GB=9
+MEM_GB=10
 # read subject ids from the list of the text file:
 SUB_LIST=$(cat ${PATH_SUB_LIST} | tr '\n' ' ')
 # declare an array with sessions you want to run:
@@ -100,13 +95,13 @@ for SUB in ${SUB_LIST}; do
 		# email notification on abort/end, use 'n' for no notification:
 		echo "#SBATCH --mail-type NONE" >> job
 		# write log to log folder:
-		echo "#SBATCH --output ${PATH_LOG}/slurm-%j.out" >> job
+		echo "#SBATCH --output ${PATH_LOG}/slurm-mriqc-%j.out" >> job
 		# request multiple cpus:
 		echo "#SBATCH --cpus-per-task ${N_CPUS}" >> job
 		# export template flow environment variable:
 		echo "export SINGULARITYENV_TEMPLATEFLOW_HOME=/templateflow" >> job
 		# define the main command:
-		echo "singularity run -B ${PATH_INPUT}:/input:ro \
+		echo "singularity run --contain -B ${PATH_INPUT}:/input:ro \
 		-B ${PATH_OUTPUT}:/output:rw -B ${PATH_WORK}:/work:rw \
 		-B ${PATH_TEMPLATEFLOW}:/templateflow:rw \
 		${PATH_CONTAINER} /input/ /output/ participant --participant-label ${SUB_PAD} \

@@ -36,7 +36,7 @@ PATH_TEMPLATEFLOW="${PATH_BASE}/.cache/templateflow"
 # path to the data directory (in bids format):
 PATH_INPUT="${PATH_PROJECT}/bids"
 # path to the output directory:
-PATH_OUTPUT=${PATH_PROJECT}
+PATH_OUTPUT=${PATH_PROJECT}/${TASK_NAME}
 # path to the working directory:
 PATH_WORK=${PATH_PROJECT}/work
 # path to the log directory:
