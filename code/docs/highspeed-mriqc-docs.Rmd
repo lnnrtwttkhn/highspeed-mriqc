@@ -1,27 +1,3 @@
----
-title: "Faster than thought: Detecting sub-second activation sequences with sequential fMRI pattern analysis"
-subtitle: "Short project title: highspeed"
-author:
-  - Lennart Wittkuhn^[Max Planck Institute for Human Development, wittkuhn@mpib-berlin.mpg.de]
-  - Nicolas W. Schuck^[Max Planck Institute for Human Development, schuck@mpib-berlin.mpg.de]
-date: "Last update: `r format(Sys.time(), '%d %B, %Y')`"
-output:
- html_document:
-    toc: true
-    self_contained: true
-    toc_float: true
-    toc_depth: 3
-    number_sections: true
-    highlight: pygments
-    theme: cosmo
-    df_print: paged
-    fig_caption: true
-fig.align: "center"
-header-includes:
-  - \usepackage{fontspec}
-  - \setmainfont{AgfaRotisSansSerif}
-email: wittkuhn@mpib-berlin.mpg.de
----
 
 ```{r, echo=FALSE, message=FALSE, include=FALSE}
 if (!requireNamespace("pacman")) install.packages("pacman")
@@ -34,19 +10,15 @@ if (basename(here::here()) == "highspeed"){
 }
 ```
 
-# MRI quality control
+## MRI quality control
 
-## Step 1: MRI quality control using [MRIQC](https://mriqc.readthedocs.io/en/stable/)
-
-### Overview
+#### Overview
 
 > MRIQC extracts no-reference IQMs (image quality metrics) from structural (T1w and T2w) and functional MRI (magnetic resonance imaging) data.
 
 Please see the [official MRIQC documentation](https://mriqc.readthedocs.io/en/stable/) for details and refer to the paper listed in the References section.
 
-### Code and software
-
-#### `mriqc` container, version 0.15.2rc1
+#### Container: `mriqc` container, version 0.15.2rc1
 
 MRIQC quality control was performed using [`mriqc`](https://mriqc.readthedocs.io/en/stable/), version 0.15.2rc1
 
@@ -70,6 +42,6 @@ Afterwards, one can run the `highspeed-mriqc-group-level.sh` script to acquire g
 ```{bash, echo=TRUE, code=readLines(file.path(path_root, "code", "mriqc", "highspeed-mriqc-group-level.sh")), eval=FALSE}
 ```
 
-### References
+#### References
 
 > Esteban, O., Birman, D., Schaer, M., Koyejo, O. O., Poldrack, R. A., & Gorgolewski, K. J. (2017). MRIQC: Advancing the automatic prediction of image quality in MRI from unseen sites. PLoS ONE, 12(9), e0184661. [doi: 10.1371/journal.pone.0184661](https://doi.org/10.1371/journal.pone.0184661)
