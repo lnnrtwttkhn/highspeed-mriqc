@@ -10,38 +10,48 @@ if (basename(here::here()) == "highspeed"){
 }
 ```
 
-## MRI quality control
+## MRI quality control: Running MRIQC
 
-#### Overview
+### Overview
 
 > MRIQC extracts no-reference IQMs (image quality metrics) from structural (T1w and T2w) and functional MRI (magnetic resonance imaging) data.
 
 Please see the [official MRIQC documentation](https://mriqc.readthedocs.io/en/stable/) for details and refer to the paper listed in the References section.
 
-#### Container: `mriqc` container, version 0.15.2rc1
+#### Data availability
 
-MRIQC quality control was performed using [`mriqc`](https://mriqc.readthedocs.io/en/stable/), version 0.15.2rc1
+The data is freely available from https://github.com/lnnrtwttkhn/highspeed-mriqc and https://gin.g-node.org/lnnrtwttkhn/highspeed-mriqc.
+
+#### License
+
+The dataset is licensed under Creative Commons Attribution-ShareAlike 4.0.
+Please see https://creativecommons.org/licenses/by-sa/4.0/ for details.
+
+### Container: `mriqc` container, version 0.15.2rc1
+
+MRIQC quality control was performed using [`mriqc`](https://mriqc.readthedocs.io/en/stable/), version 0.15.2rc1.
+To run MRIQC, we created a Singularity container based on the MRIQC docker image:
 
 ``` bash
 singularity pull docker://poldracklab/mriqc:0.15.2rc1
 ```
 
-#### MRIQC subject-level reports: `highspeed-mriqc-subject-level.sh`
+### MRIQC subject-level reports: `highspeed-mriqc-subject-level.sh`
 
 First, MRIQC has to run on the individual subject-, (if available, session-), modality- and run- level.
 This is achieved by running the `highspeed-mriqc-subject-level.sh` shell-script.
-The script is parallelizing all subjects, sessions, modalities and runs on the cluster.
+The script is parallelizing all subjects and sessions on the cluster.
 
 ```{bash, echo=TRUE, code=readLines(file.path(path_root, "code", "mriqc", "highspeed-mriqc-subject-level.sh")), eval=FALSE}
 ```
 
-#### MRIQC group-level reports: `highspeed-mriqc-group-level.sh`
+### MRIQC group-level reports: `highspeed-mriqc-group-level.sh`
 
 Afterwards, one can run the `highspeed-mriqc-group-level.sh` script to acquire group statistics of the quality metrics.
 
 ```{bash, echo=TRUE, code=readLines(file.path(path_root, "code", "mriqc", "highspeed-mriqc-group-level.sh")), eval=FALSE}
 ```
 
-#### References
+### References
 
 > Esteban, O., Birman, D., Schaer, M., Koyejo, O. O., Poldrack, R. A., & Gorgolewski, K. J. (2017). MRIQC: Advancing the automatic prediction of image quality in MRI from unseen sites. PLoS ONE, 12(9), e0184661. [doi: 10.1371/journal.pone.0184661](https://doi.org/10.1371/journal.pone.0184661)
